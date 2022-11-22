@@ -4,7 +4,7 @@ networks = {'LPAZ': 'GT',
            'YUNZ': 'XE'
           }
 
-syn_dir = f"./Bolivia_1994/data/synthetics/S40RTS/CMT0S/OUTPUT_FILES"
+syn_dir = f"./Bolivia_1994/data/synthetics/S40RTS/CMT0S/"
 
 def load_synthetic_station(station, channel = 'Z'):
     # Load the synthetics:

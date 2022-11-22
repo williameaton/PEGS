@@ -4,9 +4,8 @@ networks = {'LPAZ': 'GT',
            'YUNZ': 'XE'
           }
 
-syn_dir = f"./Bolivia_1994/data/synthetics/S40RTS/CMT0S/"
 
-def load_synthetic_station(station, channel = 'Z'):
+def load_synthetic_station(syn_dir, station, channel = 'Z'):
     # Load the synthetics:
     network = networks[station]
     stn_str = f'{syn_dir}/{station}.{network}'

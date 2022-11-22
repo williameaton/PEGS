@@ -1,0 +1,13 @@
+# Choose stations following the Vallee and Juhel 2019 paper - Section 3.3.1 for description
+# STN NET Latitude   Longitude Elevation Depth
+NNA    II  -11.9875     -76.8422     575.0    40.0
+YUNZ   XE  -19.158199   -65.068703   2896.0   0.0
+LPAZ   GT  -16.287901   -68.130692   4669.0   100.0
+
+
+
+
+-11.9875, -19.158199, -16.287901
+
+
+-76.8422 , -65.068703 , -68.130692

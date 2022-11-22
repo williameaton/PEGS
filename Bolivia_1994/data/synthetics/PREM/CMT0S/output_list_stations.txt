@@ -1,0 +1,6 @@
+ 
+ total number of stations:            3
+ 
+ LPAZ.GT epicentral distance    2.596887      deg
+ NNA.II epicentral distance    9.527807      deg
+ YUNZ.XE epicentral distance    5.705443      deg

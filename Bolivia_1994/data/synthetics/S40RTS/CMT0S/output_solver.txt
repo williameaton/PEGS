@@ -1,0 +1,571 @@
+ 
+ ******************************
+ **** Specfem3D MPI Solver ****
+ ******************************
+ 
+ 
+ Fixing slow underflow trapping problem using small initial field
+ 
+ There are          864  MPI processes
+ Processes are numbered from 0 to          863
+ 
+ There are          192  elements along xi in each chunk
+ There are          192  elements along eta in each chunk
+ 
+ There are           12  slices along xi in each chunk
+ There are           12  slices along eta in each chunk
+ There is a total of          144  slices in each chunk
+ There are            6  chunks
+ There is a total of          864  slices in all the chunks
+ 
+ NDIM =            3
+ 
+ NGLLX =            5
+ NGLLY =            5
+ NGLLZ =            5
+ 
+ using double precision for the calculations
+ 
+ smallest and largest possible floating-point numbers are: 
+  2.225073858507201E-308  1.797693134862316E+308
+ 
+ model: s40rts
+   incorporating the oceans using equivalent load
+   incorporating ellipticity
+   incorporating surface topography
+   incorporating self-gravitation (Cowling approximation)
+   incorporating full self-gravitation (NO Cowling approximation) with transitio
+ n layer
+   incorporating rotation
+   incorporating attenuation using            3  standard linear solids
+   using 3D attenuation
+ 
+   incorporating 3-D lateral variations
+   no heterogeneities in the mantle
+   incorporating crustal variations
+   using one layer only in PREM crust
+   incorporating transverse isotropy
+   no inner-core anisotropy
+   no general mantle anisotropy
+ 
+ 
+ Spatial distribution of the slices
+                      143  131  119  107   95   83   71   59   47   35   23   11
+                      142  130  118  106   94   82   70   58   46   34   22   10
+                      141  129  117  105   93   81   69   57   45   33   21    9
+                      140  128  116  104   92   80   68   56   44   32   20    8
+                      139  127  115  103   91   79   67   55   43   31   19    7
+                      138  126  114  102   90   78   66   54   42   30   18    6
+                      137  125  113  101   89   77   65   53   41   29   17    5
+                      136  124  112  100   88   76   64   52   40   28   16    4
+                      135  123  111   99   87   75   63   51   39   27   15    3
+                      134  122  110   98   86   74   62   50   38   26   14    2
+                      133  121  109   97   85   73   61   49   37   25   13    1
+                      132  120  108   96   84   72   60   48   36   24   12    0
+  
+   431  419  407  395  383  371  359  347  335  323  311  299     287  275  263  251  239  227  215  203  191  179  167  155     719  707  695  683  671  659  647  635  623  611  599  587
+   430  418  406  394  382  370  358  346  334  322  310  298     286  274  262  250  238  226  214  202  190  178  166  154     718  706  694  682  670  658  646  634  622  610  598  586
+   429  417  405  393  381  369  357  345  333  321  309  297     285  273  261  249  237  225  213  201  189  177  165  153     717  705  693  681  669  657  645  633  621  609  597  585
+   428  416  404  392  380  368  356  344  332  320  308  296     284  272  260  248  236  224  212  200  188  176  164  152     716  704  692  680  668  656  644  632  620  608  596  584
+   427  415  403  391  379  367  355  343  331  319  307  295     283  271  259  247  235  223  211  199  187  175  163  151     715  703  691  679  667  655  643  631  619  607  595  583
+   426  414  402  390  378  366  354  342  330  318  306  294     282  270  258  246  234  222  210  198  186  174  162  150     714  702  690  678  666  654  642  630  618  606  594  582
+   425  413  401  389  377  365  353  341  329  317  305  293     281  269  257  245  233  221  209  197  185  173  161  149     713  701  689  677  665  653  641  629  617  605  593  581
+   424  412  400  388  376  364  352  340  328  316  304  292     280  268  256  244  232  220  208  196  184  172  160  148     712  700  688  676  664  652  640  628  616  604  592  580
+   423  411  399  387  375  363  351  339  327  315  303  291     279  267  255  243  231  219  207  195  183  171  159  147     711  699  687  675  663  651  639  627  615  603  591  579
+   422  410  398  386  374  362  350  338  326  314  302  290     278  266  254  242  230  218  206  194  182  170  158  146     710  698  686  674  662  650  638  626  614  602  590  578
+   421  409  397  385  373  361  349  337  325  313  301  289     277  265  253  241  229  217  205  193  181  169  157  145     709  697  685  673  661  649  637  625  613  601  589  577
+   420  408  396  384  372  360  348  336  324  312  300  288     276  264  252  240  228  216  204  192  180  168  156  144     708  696  684  672  660  648  636  624  612  600  588  576
+  
+                      863  851  839  827  815  803  791  779  767  755  743  731
+                      862  850  838  826  814  802  790  778  766  754  742  730
+                      861  849  837  825  813  801  789  777  765  753  741  729
+                      860  848  836  824  812  800  788  776  764  752  740  728
+                      859  847  835  823  811  799  787  775  763  751  739  727
+                      858  846  834  822  810  798  786  774  762  750  738  726
+                      857  845  833  821  809  797  785  773  761  749  737  725
+                      856  844  832  820  808  796  784  772  760  748  736  724
+                      855  843  831  819  807  795  783  771  759  747  735  723
+                      854  842  830  818  806  794  782  770  758  746  734  722
+                      853  841  829  817  805  793  781  769  757  745  733  721
+                      852  840  828  816  804  792  780  768  756  744  732  720
+  
+                      575  563  551  539  527  515  503  491  479  467  455  443
+                      574  562  550  538  526  514  502  490  478  466  454  442
+                      573  561  549  537  525  513  501  489  477  465  453  441
+                      572  560  548  536  524  512  500  488  476  464  452  440
+                      571  559  547  535  523  511  499  487  475  463  451  439
+                      570  558  546  534  522  510  498  486  474  462  450  438
+                      569  557  545  533  521  509  497  485  473  461  449  437
+                      568  556  544  532  520  508  496  484  472  460  448  436
+                      567  555  543  531  519  507  495  483  471  459  447  435
+                      566  554  542  530  518  506  494  482  470  458  446  434
+                      565  553  541  529  517  505  493  481  469  457  445  433
+                      564  552  540  528  516  504  492  480  468  456  444  432
+  
+ for overlapping of communications with calculations:
+ 
+ percentage of edge elements in crust/mantle    40.15625     %
+ percentage of volume elements in crust/mantle    59.84375     %
+ 
+ percentage of edge elements in outer core    81.66666     %
+ percentage of volume elements in outer core    18.33334     %
+ 
+ percentage of edge elements in inner core    55.55556     %
+ percentage of volume elements in inner core    44.44444     %
+ 
+ percentage of edge elements in trinfinite layer    100.0000     %
+ percentage of volume elements in trinfinite layer   0.0000000E+00 %
+ 
+ percentage of edge elements in infinite layer    100.0000     %
+ percentage of volume elements in infinite layer   0.0000000E+00 %
+ 
+ 
+ Elapsed time for reading mesh in seconds =    13.48513    
+ 
+ topography:
+   topography/bathymetry: min/max =        -7747        5507
+ 
+ Elapsed time for reading topo/bathy in seconds =   0.6544092    
+ 
+ 
+ *************************************
+  locating source            1
+ *************************************
+ 
+ source located in slice          172
+                in element         1608
+ 
+    xi coordinate of source in that element:  -0.658609266998904     
+   eta coordinate of source in that element:   0.466670152610092     
+ gamma coordinate of source in that element:  -0.323505551303708     
+ 
+ Source time function is a Heaviside, convolve later
+ 
+ 
+  half duration:   0.565250000000000       seconds
+     time shift:   0.000000000000000E+000  seconds
+ 
+ original (requested) position of the source:
+ 
+       latitude:   -13.8200000000000     
+      longitude:   -67.2500000000000     
+          depth:    647.100000000000       km
+ 
+ position of the source that will be used:
+ 
+       latitude:   -13.8201392726270     
+      longitude:   -67.2500000000000     
+          depth:    647.100000000000       km
+ 
+ error in location of the source:   7.9081126E-13  km
+ 
+ maximum error in location of the sources:   7.9081126E-13  km
+ 
+ 
+ Elapsed time for detection of sources in seconds =   1.463560201227665E-002
+ 
+ End of source detection - done
+ 
+ 
+ printing the source-time function
+ 
+ printing the source spectrum
+ 
+ Total number of receivers =            3
+ 
+ 
+ ********************
+  locating receivers
+ ********************
+ 
+ 
+ ****************************
+ reading receiver information
+ ****************************
+ 
+ Station #           1 : LPAZ.GT    epicentral distance:     2.596887     
+  degrees
+ Station #           2 : NNA.II    epicentral distance:     9.527807      degree
+ s
+ Station #           3 : YUNZ.XE    epicentral distance:     5.705443     
+  degrees
+ 
+ maximum error in location of all the receivers:   1.6206808E-12  km
+ 
+ Elapsed time for receiver detection in seconds =   4.104479402303696E-002
+ 
+ End of receiver detection - done
+ 
+ 
+ found a total of            3  receivers in all slices
+ this total is okay
+ 
+ Total number of samples for seismograms =         3900
+ 
+ 
+ Reference radius of the Earth used is    6371.00000000000       km
+ 
+ 
+ incorporating the oceans using equivalent load
+ 
+ incorporating ellipticity
+ 
+ incorporating surface topography
+ 
+ incorporating self-gravitation (Cowling approximation)
+ 
+ incorporating rotation
+ 
+ incorporating attenuation using            3  standard linear solids
+ using 3D attenuation
+ 
+ 
+ 
+ preparing mass matrices.
+ 
+ preparing mass matrices.
+ 
+ preparing sparse matrix.
+ 
+ preparing constants.
+ 
+ preparing gravity arrays.
+ 
+ preparing attenuation.
+ 
+ initializing wavefields.
+ 
+ preparing number of runs
+   number of runs    :            1
+   number of this run:            1
+   time stepping     : begin/end =            1 /        3900
+ 
+ Elapsed time for preparing timerun in seconds =    16.86799    
+ 
+ time loop:
+ 
+            time step:   0.1130500      s
+ number of time steps:         3900
+ total simulated time:    7.332234      minutes
+ start time          : -0.8478750      seconds
+ 
+ 
+ Starting time iteration loop...
+ 
+ Time step #            5
+ Time:  -6.5945834E-03  minutes
+ Max norm displacement vector U in solid in all slices (m) = 
+  3.317549877498318E-004
+ Max non-dimensional potential Ufluid in fluid in all slices = 
+  1.000392317023970E-024
+ Max of strain, eps_trace_over_3_crust_mantle =  1.245408601526364E-022
+ Max of strain, epsilondev_crust_mantle  =  4.501944963902496E-008
+ Elapsed time in seconds =    59.8260542731732     
+ Elapsed time in hh:mm:ss =    0 h 00 m 59 s
+ Mean elapsed time per time step in seconds =    11.9652108546346     
+ Time steps done =            5  out of         3900
+ Time steps remaining =         3895
+ Estimated remaining time in seconds =    46604.4962788019     
+ Estimated remaining time in hh:mm:ss =   12 h 56 m 44 s
+ Estimated total run time in seconds =    46664.3223330751     
+ Estimated total run time in hh:mm:ss =   12 h 57 m 44 s
+ We have done   0.1282051     % of that
+ The run will finish approximately on (in local time): Sun Nov 20, 2022 09:41
+ ************************************************************
+ **** BEWARE: the above time estimates are not reliable
+ **** because fewer than 100 iterations have been performed
+ ************************************************************
+ 
+ Time step #         1000
+ Time:    1.868151      minutes
+ Max norm displacement vector U in solid in all slices (m) = 
+   3.57429899366115     
+ Max non-dimensional potential Ufluid in fluid in all slices = 
+  3.651649385729809E-015
+ Max of strain, eps_trace_over_3_crust_mantle =  7.855312063834187E-007
+ Max of strain, epsilondev_crust_mantle  =  2.747247622687402E-004
+ Elapsed time in seconds =    11293.2002027817     
+ Elapsed time in hh:mm:ss =    3 h 08 m 13 s
+ Mean elapsed time per time step in seconds =    11.2932002027817     
+ Time steps done =         1000  out of         3900
+ Time steps remaining =         2900
+ Estimated remaining time in seconds =    32750.2805880669     
+ Estimated remaining time in hh:mm:ss =    9 h 05 m 50 s
+ Estimated total run time in seconds =    44043.4807908487     
+ Estimated total run time in hh:mm:ss =   12 h 14 m 03 s
+ We have done    25.64103     % of that
+ The run will finish approximately on (in local time): Sun Nov 20, 2022 08:57
+ 
+ 
+ Total number of receivers saved is            3  out of            3
+ 
+ 
+ Writing the seismograms by master proc alone took   6.382542289793491E-002 
+  seconds
+ 
+ 
+ Total number of receivers saved is            3  out of            3
+ 
+ 
+ Writing the seismograms by master proc alone took   5.345937795937061E-002 
+  seconds
+ 
+ 
+ Total number of receivers saved is            3  out of            3
+ 
+ 
+ Writing the seismograms by master proc alone took   5.008539184927940E-002 
+  seconds
+ 
+ 
+ Total number of receivers saved is            3  out of            3
+ 
+ 
+ Writing the seismograms by master proc alone took   1.720789633691311E-002 
+  seconds
+ 
+ 
+ Total number of receivers saved is            3  out of            3
+ 
+ 
+ Writing the seismograms by master proc alone took   5.166523531079292E-002 
+  seconds
+ 
+ 
+ Total number of receivers saved is            3  out of            3
+ 
+ 
+ Writing the seismograms by master proc alone took   5.396916903555393E-002 
+  seconds
+ 
+ 
+ Total number of receivers saved is            3  out of            3
+ 
+ 
+ Writing the seismograms by master proc alone took   4.930419288575649E-002 
+  seconds
+ 
+ 
+  Total number of time steps written:         1000
+ 
+ Time step #         2000
+ Time:    3.752318      minutes
+ Max norm displacement vector U in solid in all slices (m) = 
+   3.55135138171610     
+ Max non-dimensional potential Ufluid in fluid in all slices = 
+  3.031903181890350E-012
+ Max of strain, eps_trace_over_3_crust_mantle =  9.281507701919278E-007
+ Max of strain, epsilondev_crust_mantle  =  2.694667719399891E-004
+ Elapsed time in seconds =    21691.4325932153     
+ Elapsed time in hh:mm:ss =    6 h 01 m 31 s
+ Mean elapsed time per time step in seconds =    10.8457162966076     
+ Time steps done =         2000  out of         3900
+ Time steps remaining =         1900
+ Estimated remaining time in seconds =    20606.8609635545     
+ Estimated remaining time in hh:mm:ss =    5 h 43 m 26 s
+ Estimated total run time in seconds =    42298.2935567697     
+ Estimated total run time in hh:mm:ss =   11 h 44 m 58 s
+ We have done    51.28205     % of that
+ The run will finish approximately on (in local time): Sun Nov 20, 2022 08:28
+ 
+ 
+ Total number of receivers saved is            3  out of            3
+ 
+ 
+ Writing the seismograms by master proc alone took   7.506046257913113E-002 
+  seconds
+ 
+ 
+ Total number of receivers saved is            3  out of            3
+ 
+ 
+ Writing the seismograms by master proc alone took   7.387255877256393E-002 
+  seconds
+ 
+ 
+ Total number of receivers saved is            3  out of            3
+ 
+ 
+ Writing the seismograms by master proc alone took   7.901230081915855E-002 
+  seconds
+ 
+ 
+ Total number of receivers saved is            3  out of            3
+ 
+ 
+ Writing the seismograms by master proc alone took   2.217921800911427E-002 
+  seconds
+ 
+ 
+ Total number of receivers saved is            3  out of            3
+ 
+ 
+ Writing the seismograms by master proc alone took   6.898761726915836E-002 
+  seconds
+ 
+ 
+ Total number of receivers saved is            3  out of            3
+ 
+ 
+ Writing the seismograms by master proc alone took   7.202129811048508E-002 
+  seconds
+ 
+ 
+ Total number of receivers saved is            3  out of            3
+ 
+ 
+ Writing the seismograms by master proc alone took   7.070015743374825E-002 
+  seconds
+ 
+ 
+  Total number of time steps written:         2000
+ 
+ Time step #         3000
+ Time:    5.636485      minutes
+ Max norm displacement vector U in solid in all slices (m) = 
+   3.55135387295959     
+ Max non-dimensional potential Ufluid in fluid in all slices = 
+  1.325371488671711E-011
+ Max of strain, eps_trace_over_3_crust_mantle =  8.493016596575868E-007
+ Max of strain, epsilondev_crust_mantle  =  2.689595683145170E-004
+ Elapsed time in seconds =    32672.8074405566     
+ Elapsed time in hh:mm:ss =    9 h 04 m 32 s
+ Mean elapsed time per time step in seconds =    10.8909358135189     
+ Time steps done =         3000  out of         3900
+ Time steps remaining =          900
+ Estimated remaining time in seconds =    9801.84223216698     
+ Estimated remaining time in hh:mm:ss =    2 h 43 m 21 s
+ Estimated total run time in seconds =    42474.6496727236     
+ Estimated total run time in hh:mm:ss =   11 h 47 m 54 s
+ We have done    76.92308     % of that
+ The run will finish approximately on (in local time): Sun Nov 20, 2022 08:31
+ 
+ 
+ Total number of receivers saved is            3  out of            3
+ 
+ 
+ Writing the seismograms by master proc alone took   5.792783573269844E-002 
+  seconds
+ 
+ 
+ Total number of receivers saved is            3  out of            3
+ 
+ 
+ Writing the seismograms by master proc alone took   5.386945977807045E-002 
+  seconds
+ 
+ 
+ Total number of receivers saved is            3  out of            3
+ 
+ 
+ Writing the seismograms by master proc alone took   5.433306656777859E-002 
+  seconds
+ 
+ 
+ Total number of receivers saved is            3  out of            3
+ 
+ 
+ Writing the seismograms by master proc alone took   1.783910207450390E-002 
+  seconds
+ 
+ 
+ Total number of receivers saved is            3  out of            3
+ 
+ 
+ Writing the seismograms by master proc alone took   5.357504636049271E-002 
+  seconds
+ 
+ 
+ Total number of receivers saved is            3  out of            3
+ 
+ 
+ Writing the seismograms by master proc alone took   5.347902141511440E-002 
+  seconds
+ 
+ 
+ Total number of receivers saved is            3  out of            3
+ 
+ 
+ Writing the seismograms by master proc alone took   5.409340187907219E-002 
+  seconds
+ 
+ 
+  Total number of time steps written:         3000
+ 
+ Time step #         3900
+ Time:    7.332234      minutes
+ Max norm displacement vector U in solid in all slices (m) = 
+   3.54963949293662     
+ Max non-dimensional potential Ufluid in fluid in all slices = 
+  1.273351322412194E-011
+ Max of strain, eps_trace_over_3_crust_mantle =  6.938812141333443E-007
+ Max of strain, epsilondev_crust_mantle  =  2.686018852700594E-004
+ Elapsed time in seconds =    41758.1283459812     
+ Elapsed time in hh:mm:ss =   11 h 35 m 58 s
+ Mean elapsed time per time step in seconds =    10.7072123964054     
+ Time steps done =         3900  out of         3900
+ Time steps remaining =            0
+ Estimated remaining time in seconds =   0.000000000000000E+000
+ Estimated remaining time in hh:mm:ss =    0 h 00 m 00 s
+ Estimated total run time in seconds =    41758.1283459812     
+ Estimated total run time in hh:mm:ss =   11 h 35 m 58 s
+ We have done    100.0000     % of that
+ 
+ 
+ Total number of receivers saved is            3  out of            3
+ 
+ 
+ Writing the seismograms by master proc alone took   4.887007921934128E-002 
+  seconds
+ 
+ 
+ Total number of receivers saved is            3  out of            3
+ 
+ 
+ Writing the seismograms by master proc alone took   4.761769622564316E-002 
+  seconds
+ 
+ 
+ Total number of receivers saved is            3  out of            3
+ 
+ 
+ Writing the seismograms by master proc alone took   4.776565730571747E-002 
+  seconds
+ 
+ 
+ Total number of receivers saved is            3  out of            3
+ 
+ 
+ Writing the seismograms by master proc alone took   1.594557985663414E-002 
+  seconds
+ 
+ 
+ Total number of receivers saved is            3  out of            3
+ 
+ 
+ Writing the seismograms by master proc alone took   4.746064543724060E-002 
+  seconds
+ 
+ 
+ Total number of receivers saved is            3  out of            3
+ 
+ 
+ Writing the seismograms by master proc alone took   4.768661968410015E-002 
+  seconds
+ 
+ 
+ Total number of receivers saved is            3  out of            3
+ 
+ 
+ Writing the seismograms by master proc alone took   4.781740531325340E-002 
+  seconds
+ 
+ 
+  Total number of time steps written:         3900
+ 
+ Time-Loop Complete. Timing info:
+ Total elapsed time in seconds =    41771.5782465860     
+ Total elapsed time in hh:mm:ss =   11 h 36 m 11 s
+ 
+ End of the simulation
+ 

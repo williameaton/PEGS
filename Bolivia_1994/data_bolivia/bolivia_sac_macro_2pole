@@ -1,0 +1,69 @@
+* BOLIVIA MACRO CREATED by WE at 2022-11-22 18:43:15.858615 
+*****************************************************
+
+
+
+* --------------- loading the stations ---------------
+
+* Load stations: 
+r      ./raw/*LPAZ*.sac
+r more ./raw/*NNA*.sac
+
+
+
+* --------------- change time parameters ---------------
+
+
+* Change O time for all data to event time
+CHNHDR O GMT 1994 160 00 33 16 040
+
+chnhdr allt (0 - &1,o&) IZTYPE IO 
+
+chnhdr file 1 T0 80
+chnhdr file 2 T0 135
+
+
+
+* -------- temporarily write out the files --------
+
+
+* Write files temporarily - will be reloaded
+w ./out/LPAZ_proc.sac ./out/NNA_proc.sac 
+* DELETE ALL FILES IN MEMORY: 
+dc 1 2
+* Ensure traces are cut at pick
+cut b T0 
+
+
+
+
+* -------- reload temp files with correct time cuts --------
+
+* NOTE THAT YUNZ USES DIFFERENT Highpass FILTER 
+ * --> NNA and LPAZ use a 2 pole         highpass causal butterworth filter but YUNZ uses 4 poles so need to do this separately:* First lets loads the two that are the same: 
+r      ./out/*NNA*.sac
+r more ./out/*LPAZ*.sac
+
+
+
+* -------- begin data processing for NNA/LPAZ --------
+
+
+* Remove the mean: 
+rmean
+
+* Remove instrument response
+transfer from evalresp to acc freql 0.0001 0.0002 1 2
+
+* Lowpass filters:
+lowpass butter corner 0.03 npoles 6 passes 1
+
+* Resample to avoid aliasing
+interpolate delta 0.2
+
+* Highpass: 
+highpass butter corner 0.002 npoles 2 passes 1
+
+* Write files
+w ./out/NNA_proc.sac ./out/LPAZ_proc.sac
+

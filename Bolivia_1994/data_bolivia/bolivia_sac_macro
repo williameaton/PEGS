@@ -1,0 +1,61 @@
+* BOLIVIA MACRO CREATED by WE at 2022-11-22 18:27:01.464945 
+*****************************************************
+
+
+
+* --------------- loading the stations ---------------
+
+* Load stations: 
+*r      ./raw/*NNA*.sac
+r more ./raw/*YUNZ*.sac
+*r more ./raw/*LPAZ*.sac
+
+
+
+* --------------- change time parameters ---------------
+
+
+* Change O time for all data to event time
+CHNHDR O GMT 1994 160 00 33 16 040
+
+chnhdr allt (0 - &1,o&) IZTYPE IO 
+
+chnhdr file 1 T0 100
+*chnhdr file 2 T0 80
+*chnhdr file 3 T0 80
+
+
+
+* -------- temporarily write out the files --------
+
+
+* Write files temporarily - will be reloaded
+w ./out/YUNZ_proc.sac 
+* DELETE ALL FILES IN MEMORY: 
+dc 1 
+* Ensure traces are cut at pick
+cut b T0 
+
+
+
+* -------- begin data processing for YUNZ --------
+
+r ./out/YUNZ_proc.sac
+
+* Remove the mean: 
+rmean
+
+* Remove instrument response
+transfer from evalresp to acc freql 0.0001 0.0002 1 2
+
+* Lowpass filters:
+lowpass butter corner 0.03 npoles 6 passes 1
+
+* Resample to avoid aliasing
+interpolate delta 0.2
+
+* Highpass NOTE HERE THAT IT HAS 4 POLES: 
+highpass butter corner 0.002 npoles 4 passes 1
+
+* Write files
+w ./out/YUNZ_proc.sac

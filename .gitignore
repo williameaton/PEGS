@@ -1,4 +1,14 @@
 *__pycache__*
 *.idea*
 *.ipynb_checkpoints*
+*DS_Store*
+
 wetools.py
+
+
+# Data types:
+*.meta
+*.mseed
+*.xml
+RESP*
+*sem.ascii

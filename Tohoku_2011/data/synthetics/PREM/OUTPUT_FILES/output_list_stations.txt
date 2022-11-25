@@ -1,0 +1,14 @@
+ 
+ total number of stations:           11
+ 
+ ULN.IU epicentral distance    28.17201      deg
+ XAN.IC epicentral distance    27.81651      deg
+ MA2.IU epicentral distance    22.62029      deg
+ BJT.IC epicentral distance    21.08202      deg
+ NE93.YP epicentral distance    17.88508      deg
+ INCN.IU epicentral distance    13.04854      deg
+ MDJ.IC epicentral distance    12.37377      deg
+ SHR.SY epicentral distance    6.687853      deg
+ FUK.SY epicentral distance    12.64493      deg
+ INU.GG epicentral distance    5.315200      deg
+ MAJO.IU epicentral distance    3.998957      deg

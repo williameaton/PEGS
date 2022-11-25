@@ -1,5 +1,0 @@
-#IRISDMC: http://ds.iris.edu
-#net|sta|loc|chan|lat|lon|elev|depth|azimuth|dip|instrument|scale|scalefreq|scaleunits|samplerate|start|end
-GT|LPAZ|--|BHE|-16.287901|-68.130692|4669.0|100.0|90.0|0.0|Geotech KS-54000 Borehole Seismometer|1.24579E10|1|m/s|20|1993-08-20T00:00:00.0000|1996-08-27T00:00:00.0000
-GT|LPAZ|--|BHN|-16.287901|-68.130692|4669.0|100.0|0.0|0.0|Geotech KS-54000 Borehole Seismometer|1.25311E10|1|m/s|20|1993-08-20T00:00:00.0000|1996-08-27T00:00:00.0000
-GT|LPAZ|--|BHZ|-16.287901|-68.130692|4669.0|100.0|0.0|-90.0|Geotech KS-54000 Borehole Seismometer|1.24077E10|1|m/s|20|1993-08-20T00:00:00.0000|1996-08-27T00:00:00.0000

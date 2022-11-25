@@ -1,0 +1,2 @@
+ error reading in station in STATIONS file
+ Error detected, aborting MPI... proc            0

@@ -1,0 +1,55 @@
+*****************************************************
+* YUNZ MACRO FOR SYNTHETIC DATA  CREATED at 2022-11-23 17:32:01.669741 
+*****************************************************
+
+
+
+* Load station: 
+r convolved/YUNZ.sac 
+
+
+
+* --------------- change time parameters ---------------
+
+
+* Change O time for all data to event time
+CHNHDR O GMT 1994 160 00 33 16 040
+
+chnhdr allt (0 - &1,o&) IZTYPE IO 
+
+chnhdr file 1 T0 104
+
+
+
+* -------- temporarily write out the files --------
+
+
+* Write files temporarily - will be reloaded
+w ./tmp/tmp_YUNZ_SYN_proc.sac 
+
+* DELETE ALL FILES IN MEMORY: 
+dc 1
+* Ensure traces are cut at pick
+cut b T0 
+
+
+
+
+* -------- begin data processing for YUNZ --------
+
+r ./tmp/tmp_YUNZ_SYN_proc.sac 
+
+* Remove the mean: 
+rmean
+
+* Lowpass filters:
+lowpass butter corner 0.03 npoles 6 passes 1
+
+* Resample to avoid aliasing
+interpolate delta 0.2
+
+* Highpass NOTE HERE THAT IT HAS 4 POLES: 
+highpass butter corner 0.002 npoles 4 passes 1
+
+* Write files
+w ./processed/YUNZ_SYN_proc.sac
